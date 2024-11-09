@@ -22,7 +22,7 @@ jobs:
         with:
           apt: build-essential libtool pkg-config lv2-dev meson ninja-build
       - name: Configure Project
-        run: meson setup build
+        run: meson setup build -Dlv2dir=$HOME/.lv2/
       - name: Build
         run: meson compile -C build
       - name: Install
