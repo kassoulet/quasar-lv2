@@ -1,0 +1,21 @@
+name: 'Torture'
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build and Test on ${{ matrix.os }} with Meson v${{ matrix.meson_version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        meson_version: ["1.2.0", "1.3.0", "1.4.0"]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run Torture
+        uses: briceburg/github-action-build-dockerfile@v0
