@@ -17,24 +17,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Meson Setup
-        uses: BSFishy/meson-build@v1.0.3
+      - name: Install Dependencies
+        uses: amitie10g/install-package@v1.2.5
         with:
-          action: setup
-      - name: Meson Build
-        uses: BSFishy/meson-build@v1.0.3
-        with:
-          action: build
-      - name: Meson Install
-        uses: BSFishy/meson-build@v1.0.3
-        with:
-          action: Install
-      # - name: Configure Project
-      #   run: meson setup build/
-      #   env:
-      #     CC: gcc
-      # - name: Check build
-      #   run: meson compile -C build -v
+          apt: build-essential libtool pkg-config lv2-dev meson ninja-build
+      - name: Configure Project
+        run: meson setup build
+      - name: Build
+        run: meson compile -C build -v
+      - name: Install
+        run: meson install -C build -v
 
       # - name: Run Tests
       #   run: meson test -C build/ -v
