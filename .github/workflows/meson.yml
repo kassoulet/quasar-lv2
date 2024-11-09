@@ -2,13 +2,9 @@ name: Meson Build
 
 on:
   push:
-    paths:
-      - "**.c"
-      - "**.h"
+    branches: ["main"]
   pull_request:
-    paths:
-      - "**.c"
-      - "**.h"
+    branches: ["main"]
 
 jobs:
   build:
