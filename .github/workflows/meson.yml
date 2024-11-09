@@ -1,0 +1,38 @@
+name: Meson Build
+
+on:
+  push:
+    paths:
+      - "**.c"
+      - "**.h"
+  pull_request:
+    paths:
+      - "**.c"
+      - "**.h"
+
+jobs:
+  build:
+    name: Build and Test on ${{ matrix.os }} with Meson v${{ matrix.meson_version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        meson_version: ["1.2.0", "1.3.0", "1.4.0"]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Configure Project
+        run: meson setup build/
+        env:
+          CC: gcc
+      - name: Check build
+        run: meson compile -C build -v
+
+      # - name: Run Tests
+      #   run: meson test -C build/ -v
+      # - name: Upload Test Log
+      #   uses: actions/upload-artifact@v4
+      #   if: failure()
+      #   with:
+      #     name: ${{ matrix.os }}_Meson_Testlog
+      #     path: builddir/meson-logs/testlog.txt
