@@ -1,3 +1,5 @@
+[![Build](https://github.com/kassoulet/quasar-lv2/actions/workflows/meson.yml/badge.svg)](https://github.com/kassoulet/quasar-lv2/actions/workflows/meson.yml)
+
 # Quasar - Integer Overflow Distortion 
 
 Quasar is:
@@ -11,6 +13,7 @@ Quasar is:
 > It is strongly recommended to surround Quasar by limiters. One before to adjust the level more easily, and one after to prevent your monitors to fry 😇.
 
 - Plugin format: LV2
+
 
 
 # Building
