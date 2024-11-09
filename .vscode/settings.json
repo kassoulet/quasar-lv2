@@ -1,0 +1,6 @@
+{
+    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4, UseTabs: Never, ColumnLimit: 120 }",
+    "editor.formatOnSave": true,
+    "C_Cpp.default.compileCommands": "/home/gautier/Dropbox/code/quasar-lv2/builddir/compile_commands.json",
+    "C_Cpp.default.configurationProvider": "mesonbuild.mesonbuild"
+}
