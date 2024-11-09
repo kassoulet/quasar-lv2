@@ -31,3 +31,8 @@ Compile and install the plugins:
 	meson compile -C build
 	meson install -C build
 
+# Test
+
+Use the docker file to run [plugin-torture](https://github.com/cth103/plugin-torture)  on Quasar-lv2.
+
+	docker build -t quasar-test . && docker run -it quasar-test
