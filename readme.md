@@ -1,5 +1,15 @@
 [![Build](https://github.com/kassoulet/quasar-lv2/actions/workflows/meson.yml/badge.svg)](https://github.com/kassoulet/quasar-lv2/actions/workflows/meson.yml)
 
+```
+
+      ___                                  _       ____  
+     / _ \ _   _  __ _ ___  __ _ _ __     | |_   _|___ \ 
+    | | | | | | |/ _` / __|/ _` | '__|____| \ \ / / __) |
+    | |_| | |_| | (_| \__ \ (_| | | |_____| |\ V / / __/ 
+     \__\_\\__,_|\__,_|___/\__,_|_|       |_| \_/ |_____|
+
+```
+
 # Quasar - Integer Overflow Distortion 
 
 Quasar is:
