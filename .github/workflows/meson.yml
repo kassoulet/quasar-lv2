@@ -24,9 +24,9 @@ jobs:
       - name: Configure Project
         run: meson setup build
       - name: Build
-        run: meson compile -C build -v
+        run: meson compile -C build
       - name: Install
-        run: meson install -C build -v
+        run: meson install -C build
 
       # - name: Run Tests
       #   run: meson test -C build/ -v
