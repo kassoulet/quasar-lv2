@@ -17,12 +17,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Configure Project
-        run: meson setup build/
-        env:
-          CC: gcc
-      - name: Check build
-        run: meson compile -C build -v
+      - name: Meson Build
+        uses: BSFishy/meson-build@v1.0.3
+      # - name: Configure Project
+      #   run: meson setup build/
+      #   env:
+      #     CC: gcc
+      # - name: Check build
+      #   run: meson compile -C build -v
 
       # - name: Run Tests
       #   run: meson test -C build/ -v
