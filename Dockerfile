@@ -5,7 +5,7 @@ FROM ubuntu:latest
 RUN apt-get update -y
 
 # Install necessary build tools and libraries
-RUN apt-get install -y build-essential git libtool automake pkg-config lv2-dev ladspa-sdk liblilv-dev libboost-all-dev meson ninja-build
+RUN apt-get install -y build-essential git pkg-config lv2-dev ladspa-sdk liblilv-dev libboost-dev meson
 
 # Clone the plugin-torture repository
 RUN git clone https://github.com/cth103/plugin-torture
