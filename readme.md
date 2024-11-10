@@ -20,8 +20,6 @@ Quasar is:
 
 ---
 
-> It is strongly recommended to surround Quasar by limiters. One before to adjust the level more easily, and one after to prevent your monitors to fry 😇.
-
 - Plugin format: LV2
 
 
@@ -31,18 +29,36 @@ Quasar is:
 Meson, LV2 and a C compiler are required to build this project. 
 Setup the build directory as follows:
 
-	meson setup build
+```sh
+meson setup build
 
-	# How to use a custom LV2 plugin directory:
-	meson setup build -Dlv2dir=$HOME/.lv2/
+# How to use a custom LV2 plugin directory:
+meson setup build -Dlv2dir=$HOME/.lv2/
+```
 
 Compile and install the plugins:
 
-	meson compile -C build
-	meson install -C build
+```sh
+meson compile -C build
+meson install -C build
+```
 
 # Test
 
 Use the docker file to run [plugin-torture](https://github.com/cth103/plugin-torture)  on Quasar-lv2.
 
-	docker build -t quasar-test . && docker run -it quasar-test
+```
+$ docker build -t quasar-test . && docker run -it quasar-test
+LOG: Turning on denormal detection.
+LOG: Running `Quasar Distortion' (/root/.lv2/quasar.lv2/manifest.ttl)
+LOG: Inputs:
+LOG: 	0 Input Gain => default 1
+LOG: 	1 Bits => default 16
+LOG: 	2 Overflow => default 1
+LOG: 	3 Dry/Wet => default 0.3
+LOG: silence
+LOG: impulse
+LOG: pulse
+LOG: sine
+LOG: ardour-dc-bias
+```
