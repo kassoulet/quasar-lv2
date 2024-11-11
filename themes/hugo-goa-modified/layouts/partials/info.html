@@ -4,7 +4,11 @@
     {{ end }} {{ with .Site.Params.description }}
     <h4 class="description">{{ . | markdownify }}</h4>
     {{ end }} {{$file := "home.md"}} {{ with .Site.GetPage $file }}{{ .Content
-    }}{{ end }}
+    }}{{ end }} Only on
+    <img src="images/tux.svg" alt="Linux" height="48" /> Linux
+    <img src="images/lv2_orange.svg" alt="LV2" height="32" />
+
+    <hr />
 
     <table style="margin: 10px auto; padding 20px;">
         <tr>
