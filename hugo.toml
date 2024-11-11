@@ -1,7 +1,6 @@
 ## Basic Configuration
 
-baseurl = "https://github.com/kassoulet/quasar-lv2"
-# baseurl = "https://github.com/"
+baseurl = "https://kassoulet.github.io/quasar-lv2/"
 builddrafts = false
 canonifyurls = false
 languageCode = "en-US"
@@ -30,8 +29,8 @@ dateformat = "Jan 2, 2006"
 
 ## Site Meta Settings
 [params.meta]
-description = "Simple minimalist theme"
-keywords = "minimalist,blog,goa,hugo,developer"
+description = "A sonic black hole, collapsing audio into a digital abyss of distortion and noise."
+keywords = "linux,lv2,distorsion,bitcrusher"
 
 ## Social Accounts
 [params.social]
