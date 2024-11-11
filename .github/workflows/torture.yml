@@ -20,9 +20,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Run Torture
-        uses: briceburg/github-action-build-dockerfile@v0
-        with:
-          registry: ""
-          push: false
-          
+      - name: Build Test
+        run: docker build -t quasar-test .
+      - name: Run Test
+        run: docker run -t quasar-test
