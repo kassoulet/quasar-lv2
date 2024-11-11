@@ -1,0 +1,23 @@
+<footer class="text-center footer">
+
+    <!-- <h3>
+        <a href="https://github.com/kassoulet/" aria-label="Github" target="_blank"><i class="fab fa-github" aria-hidden="true"></i>
+            Goa
+        </a>
+    </h3> -->
+
+    <hr />
+  {{ with .Site.Params.extra }}
+  <h6 class="text-center copyright">{{ .copyright | markdownify }}</h6>
+  {{ if ne .poweredby false }}
+  <h6 class="text-center powered"><a href="https://gohugo.io/">Hugo</a> <a
+      href="https://github.com/shenoydotme/hugo-goa">Goa</a> by <a href="https://shenoy.me">shenoydotme</a> and <a
+      href="https://incirclemedia.com">Incircle Media</a></h6>
+  {{ end }}
+  {{ if ne .displayrssicon false }}
+  <h6>
+    <a href="{{ "index.xml" | absURL }}" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a>
+  </h6>
+  {{ end }}
+  {{ end }}
+</footer>
