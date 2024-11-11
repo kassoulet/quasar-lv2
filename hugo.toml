@@ -13,7 +13,7 @@ publishdir = "public"
 author = "Gautier Portet"
 title = "Quasar-lv2"
 
-theme = "hugo-goa"
+theme = "hugo-goa-modified"
 
 ## Hugo Built-in Features
 # disqusShortname = "discusShortname" # Enable if you want to use Disqus
