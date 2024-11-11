@@ -1,0 +1,57 @@
+## Basic Configuration
+
+baseurl = "https://github.com/kassoulet/quasar-lv2"
+# baseurl = "https://github.com/"
+builddrafts = false
+canonifyurls = false
+languageCode = "en-US"
+
+contentdir = "content"
+layoutdir = "layouts"
+publishdir = "public"
+
+author = "Gautier Portet"
+title = "Quasar-lv2"
+
+theme = "hugo-goa"
+
+## Hugo Built-in Features
+# disqusShortname = "discusShortname" # Enable if you want to use Disqus
+# googleAnalytics = "UA-XXXXXXXX-X" # Enable if you want to use Google Analytics
+enableRobotsTXT = true
+
+## Site Settings
+[params]
+author = "Gautier Portet"
+# intro = "Innovative Tech Visionary"
+# description = "Leading the charge at [Incircle Media](https://incirclemedia.com)"
+authorimage = "quasar-logo.gif"
+dateformat = "Jan 2, 2006"
+
+## Site Meta Settings
+[params.meta]
+description = "Simple minimalist theme"
+keywords = "minimalist,blog,goa,hugo,developer"
+
+## Social Accounts
+[params.social]
+# github = "kassoulet"
+# youtube = "<channelid>"
+# email = "you@example.com"
+
+## Extras
+[params.extra]
+copyright = "© 2024 Gautier Portet"
+poweredby = false
+highlightjs = true
+socialmarkup = true
+toc = false
+displayrssicon = false
+
+## Main Menu
+
+# [[menu.main]]
+# name = "about"
+# identifier = "about"
+# weight = 100
+# url = "about/"
