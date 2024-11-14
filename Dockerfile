@@ -5,7 +5,7 @@ FROM ubuntu:latest
 RUN apt-get update -y
 
 # Install necessary build tools and libraries
-RUN apt-get install -y build-essential git pkg-config lv2-dev ladspa-sdk liblilv-dev libboost-dev meson
+RUN apt-get install -y build-essential git pkg-config lv2-dev ladspa-sdk liblilv-dev libboost-dev meson lv2-dev sordi
 
 # Clone the plugin-torture repository
 RUN git clone https://github.com/cth103/plugin-torture
@@ -18,6 +18,9 @@ WORKDIR /quasar-lv2
 
 # Copy source code to the Docker image
 COPY manifest.ttl.in  meson.build  meson_options.txt  quasar.c  quasar.ttl ./
+
+# Validate ttl files
+RUN lv2_validate manifest.ttl.in quasar.ttl
 
 # Compile plugin
 RUN meson setup build -Dlv2dir=$HOME/.lv2/

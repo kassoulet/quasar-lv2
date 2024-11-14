@@ -45,7 +45,7 @@ meson install -C build
 
 # Test
 
-Use the docker file to run [plugin-torture](https://github.com/cth103/plugin-torture)  on Quasar-lv2.
+Use the docker file to run [plugin-torture](https://github.com/cth103/plugin-torture) and lv2_validate on Quasar-lv2.
 
 ```
 $ docker build -t quasar-test . && docker run -it quasar-test

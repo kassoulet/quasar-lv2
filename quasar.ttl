@@ -13,7 +13,8 @@
 	doap:license <https://opensource.org/license/lgpl-3-0> ;
 	doap:maintainer [
 		foaf:name "Gautier Portet" ;
-		foaf:homepage <https://github.com/kassoulet>
+		foaf:homepage <https://github.com/kassoulet> ;
+		foaf:mbox <mailto:gautier@soundconverter.org> ;
 	] ;
 
 	lv2:minorVersion 1 ;
