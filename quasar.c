@@ -1,5 +1,4 @@
 
-
 #include <lv2/core/lv2.h>
 #include <math.h>
 #include <stdint.h>
@@ -69,6 +68,35 @@ static void connect_port(LV2_Handle instance, uint32_t port, void *data) {
 
 static void activate(LV2_Handle instance) {}
 
+static inline float sanitize_denormal(float value) {
+    if (!isnormal(value)) {
+        value = 0.f;
+    }
+    return value;
+}
+
+static inline float handle_sample(float raw_value, const float gain_in, const int scale_factor, const float overflow,
+                                  const float dry_wet) {
+    // Apply input gain
+    float value = sanitize_denormal(raw_value) * gain_in;
+
+    // Convert to integer
+    int32_t value_int = value * scale_factor;
+
+    // Slam!
+    value_int *= overflow;
+
+    // Handle overflow
+    if (abs(value_int) > scale_factor) value_int = -value_int;
+
+    // And back
+    value = value_int / overflow / scale_factor;
+
+    // Apply dry/wet
+    float output_value = dry_wet * value + (1.0 - dry_wet) * raw_value;
+    return sanitize_denormal(output_value);
+}
+
 static void run(LV2_Handle instance, uint32_t n_samples) {
     QuasarDistortion *dl = (QuasarDistortion *)instance;
 
@@ -81,34 +109,11 @@ static void run(LV2_Handle instance, uint32_t n_samples) {
     const float overflow = *(dl->overflow);
     const float dry_wet = *(dl->dry_wet);
 
-    float l, r;
-
     const int scale_factor = (1 << bits) / 2 - 1;
 
     for (uint32_t pos = 0; pos < n_samples; pos++) {
-        // Apply input gain
-        l = input_l[pos] * gain_in;
-        r = input_r[pos] * gain_in;
-
-        // Convert to integer
-        int32_t l_int = l * scale_factor;
-        int32_t r_int = r * scale_factor;
-
-        // Slam!
-        l_int *= overflow;
-        r_int *= overflow;
-
-        // Handle overflow
-        if (abs(l_int) > scale_factor) l_int = -l_int;
-        if (abs(r_int) > scale_factor) r_int = -r_int;
-
-        // And back
-        l = l_int / overflow / scale_factor;
-        r = r_int / overflow / scale_factor;
-
-        // Apply dry/wet
-        output_l[pos] = dry_wet * l + (1.0 - dry_wet) * input_l[pos];
-        output_r[pos] = dry_wet * r + (1.0 - dry_wet) * input_r[pos];
+        output_l[pos] = handle_sample(input_l[pos], gain_in, scale_factor, overflow, dry_wet);
+        output_r[pos] = handle_sample(input_r[pos], gain_in, scale_factor, overflow, dry_wet);
     }
 }
 

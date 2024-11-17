@@ -14,7 +14,11 @@ bundle_name = 'quasar.lv2'
 
 cc = meson.get_compiler('c')
 
-m_dep = cc.find_library('m', required : false)
+add_global_arguments('-Wall', language: 'c')
+add_global_arguments('-msse', language: 'c')
+add_global_arguments('-mfpmath=sse', language: 'c')
+
+m_dep = cc.find_library('m', required: false)
 lv2_dep = dependency('lv2')
 
 # Figure out install_dir
