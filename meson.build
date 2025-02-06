@@ -19,10 +19,10 @@ cc = meson.get_compiler('c')
 add_global_arguments('-Wall', language: 'c')
 
 if host_cpu == 'x86_64':
-    add_global_arguments('-msse', language: 'c')
-    add_global_arguments('-mfpmath=sse', language: 'c')
+  add_global_arguments('-msse', language: 'c')
+  add_global_arguments('-mfpmath=sse', language: 'c')
 elif host_cpu == 'arm64':
-    add_global_arguments('-mfpu=neon', language: 'c')
+  add_global_arguments('-mfpu=neon', language: 'c')
 
 m_dep = cc.find_library('m', required: false)
 lv2_dep = dependency('lv2')
