@@ -1,28 +1,31 @@
 project(
   'quasar',
   'c',
-  default_options : [
+  default_options: [
     'c_std=c99',
     'default_library=static',
     'buildtype=release',
-    'optimization=3'
+    'optimization=3',
   ],
-  license : 'AGPL3',
-  version : '0.5'
+  license: 'AGPL3',
+  version: '0.5',
 )
 bundle_name = 'quasar.lv2'
 
-build_cpu = get_build_cpu() 
+build_cpu = build_machine.cpu_family()
 
 cc = meson.get_compiler('c')
 
 add_global_arguments('-Wall', language: 'c')
 
-if host_cpu == 'x86_64':
+if build_cpu == 'x86_64'
   add_global_arguments('-msse', language: 'c')
   add_global_arguments('-mfpmath=sse', language: 'c')
-elif host_cpu == 'arm64':
+elif build_cpu == 'arm64'
   add_global_arguments('-mfpu=neon', language: 'c')
+endif
+
+add_global_arguments('-fanalyzer', language: 'c')
 
 m_dep = cc.find_library('m', required: false)
 lv2_dep = dependency('lv2')
@@ -40,27 +43,27 @@ conf_data = configuration_data()
 lib = shared_library(
   'quasar',
   'quasar.c',
-  dependencies : [lv2_dep, m_dep],
-  gnu_symbol_visibility : 'hidden',
+  dependencies: [lv2_dep, m_dep],
+  gnu_symbol_visibility: 'hidden',
   install: true,
   install_dir: bundle_install_dir,
-  name_prefix : ''
+  name_prefix: '',
 )
 
 conf_data.set('CMAKE_SHARED_LIBRARY_SUFFIX', '.' + lib.full_path().split('.')[-1])
 
 configure_file(
-  input : 'quasar.ttl',
-  output : 'quasar.ttl',
-  copy : true,
-  install : true,
-  install_dir : bundle_install_dir
+  input: 'quasar.ttl',
+  output: 'quasar.ttl',
+  copy: true,
+  install: true,
+  install_dir: bundle_install_dir,
 )
 
 configure_file(
-  input : 'manifest.ttl.in',
-  output : 'manifest.ttl',
-  configuration : conf_data,
-  install : true,
-  install_dir : bundle_install_dir
+  input: 'manifest.ttl.in',
+  output: 'manifest.ttl',
+  configuration: conf_data,
+  install: true,
+  install_dir: bundle_install_dir,
 )
