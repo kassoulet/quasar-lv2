@@ -12,18 +12,18 @@ project(
 )
 bundle_name = 'quasar.lv2'
 
-target_cpu = target_machine.cpu_family()
+#target_cpu = target_machine.cpu_family()
 
 cc = meson.get_compiler('c')
 
 add_global_arguments('-Wall', language: 'c')
 
-if target_cpu == 'x86_64'
-  add_global_arguments('-msse', language: 'c')
-  add_global_arguments('-mfpmath=sse', language: 'c')
-elif target_cpu == 'arm64'
-  add_global_arguments('-mfpu=neon', language: 'c')
-endif
+#if target_cpu == 'x86_64'
+#  add_global_arguments('-msse', language: 'c')
+#  add_global_arguments('-mfpmath=sse', language: 'c')
+#elif target_cpu == 'arm64'
+#  add_global_arguments('-mfpu=neon', language: 'c')
+#endif
 
 add_global_arguments('-fanalyzer', language: 'c')
 
