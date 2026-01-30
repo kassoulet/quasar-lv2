@@ -11,6 +11,8 @@ RUN apt-get install -y build-essential git pkg-config lv2-dev ladspa-sdk liblilv
 RUN git clone https://github.com/cth103/plugin-torture /plugin-torture
 WORKDIR /plugin-torture
 RUN sed -i 's/-msse -mfpmath=sse//g' Makefile
+RUN sed -i '/#include <xmmintrin.h>/d' src/main.cc
+RUN sed -i '172,175d' src/main.cc
 RUN make -j$(nproc)
 
 # Build lv2bm
