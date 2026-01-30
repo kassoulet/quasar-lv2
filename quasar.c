@@ -81,28 +81,35 @@ static inline float sanitize_denormal(float value) {
 static inline float handle_sample(float raw_value, const float gain_in, const int32_t scale_factor, const float overflow,
                                   const float dry_wet) {
     // Apply input gain
-    float value = sanitize_denormal(raw_value) * gain_in;
+    double value = (double)sanitize_denormal(raw_value) * (double)gain_in;
 
-    // Convert to integer
-    int64_t value_int = (int64_t)(value * (float)scale_factor);
+    // Convert to integer with clamping to avoid UB on cast
+    double scaled_value = value * (double)scale_factor;
+    if (scaled_value > 1e18) scaled_value = 1e18;
+    if (scaled_value < -1e18) scaled_value = -1e18;
+    int64_t value_int = (int64_t)scaled_value;
 
     // Slam!
-    value_int = (int64_t)((float)value_int * overflow);
+    double slammed_value = (double)value_int * (double)overflow;
+    if (slammed_value > 1e18) slammed_value = 1e18;
+    if (slammed_value < -1e18) slammed_value = -1e18;
+    value_int = (int64_t)slammed_value;
 
-    // Handle overflow
+    // Handle overflow (distortion folding)
     if (value_int > (int64_t)scale_factor || value_int < -(int64_t)scale_factor) {
         value_int = -value_int;
     }
 
     // And back
+    float out;
     if (overflow != 0.0f && scale_factor != 0) {
-        value = (float)value_int / overflow / (float)scale_factor;
+        out = (float)((double)value_int / (double)overflow / (double)scale_factor);
     } else {
-        value = 0.0f;
+        out = 0.0f;
     }
 
     // Apply dry/wet
-    float output_value = dry_wet * value + (1.0f - dry_wet) * raw_value;
+    float output_value = dry_wet * out + (1.0f - dry_wet) * raw_value;
     return sanitize_denormal(output_value);
 }
 

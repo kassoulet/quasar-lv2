@@ -10,6 +10,7 @@ RUN apt-get install -y build-essential git pkg-config lv2-dev ladspa-sdk liblilv
 # Build plugin-torture
 RUN git clone https://github.com/cth103/plugin-torture /plugin-torture
 WORKDIR /plugin-torture
+RUN sed -i 's/-msse -mfpmath=sse//g' Makefile
 RUN make -j$(nproc)
 
 # Build lv2bm
