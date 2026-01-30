@@ -33,6 +33,9 @@ typedef struct {
 static LV2_Handle instantiate(const LV2_Descriptor *descriptor, double rate, const char *bundle_path,
                               const LV2_Feature *const *features) {
     QuasarDistortion *dl = (QuasarDistortion *)malloc(sizeof(QuasarDistortion));
+    if (dl == NULL) {
+        return NULL;
+    }
     return (LV2_Handle)dl;
 }
 
@@ -75,25 +78,31 @@ static inline float sanitize_denormal(float value) {
     return value;
 }
 
-static inline float handle_sample(float raw_value, const float gain_in, const int scale_factor, const float overflow,
+static inline float handle_sample(float raw_value, const float gain_in, const int32_t scale_factor, const float overflow,
                                   const float dry_wet) {
     // Apply input gain
     float value = sanitize_denormal(raw_value) * gain_in;
 
     // Convert to integer
-    int32_t value_int = value * scale_factor;
+    int64_t value_int = (int64_t)(value * (float)scale_factor);
 
     // Slam!
-    value_int *= overflow;
+    value_int = (int64_t)((float)value_int * overflow);
 
     // Handle overflow
-    if (abs(value_int) > scale_factor) value_int = -value_int;
+    if (value_int > (int64_t)scale_factor || value_int < -(int64_t)scale_factor) {
+        value_int = -value_int;
+    }
 
     // And back
-    value = value_int / overflow / scale_factor;
+    if (overflow != 0.0f && scale_factor != 0) {
+        value = (float)value_int / overflow / (float)scale_factor;
+    } else {
+        value = 0.0f;
+    }
 
     // Apply dry/wet
-    float output_value = dry_wet * value + (1.0 - dry_wet) * raw_value;
+    float output_value = dry_wet * value + (1.0f - dry_wet) * raw_value;
     return sanitize_denormal(output_value);
 }
 
@@ -104,12 +113,23 @@ static void run(LV2_Handle instance, uint32_t n_samples) {
     const float *const input_r = dl->input_r;
     float *const output_l = dl->output_l;
     float *const output_r = dl->output_r;
-    const float gain_in = *(dl->gain_in);
-    const uint32_t bits = *(dl->bits);
-    const float overflow = *(dl->overflow);
-    const float dry_wet = *(dl->dry_wet);
+    float gain_in = *(dl->gain_in);
+    if (gain_in < 0.0f) gain_in = 0.0f;
+    if (gain_in > 100.0f) gain_in = 100.0f;
 
-    const int scale_factor = (1 << bits) / 2 - 1;
+    uint32_t bits = *(dl->bits);
+    if (bits < 2) bits = 2;
+    if (bits > 30) bits = 30;
+
+    float overflow = *(dl->overflow);
+    if (overflow < 0.1f) overflow = 0.1f;
+    if (overflow > 100.0f) overflow = 100.0f;
+
+    float dry_wet = *(dl->dry_wet);
+    if (dry_wet < 0.0f) dry_wet = 0.0f;
+    if (dry_wet > 1.0f) dry_wet = 1.0f;
+
+    const int32_t scale_factor = (int32_t)((1U << bits) / 2 - 1);
 
     for (uint32_t pos = 0; pos < n_samples; pos++) {
         output_l[pos] = handle_sample(input_l[pos], gain_in, scale_factor, overflow, dry_wet);
